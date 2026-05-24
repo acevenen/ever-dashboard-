@@ -2,378 +2,313 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<title>Ever Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Ever Dashboard — Prototype</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-body{background:#1A1D1F;color:#D1D2D3}
-button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-thumb{background:#2D2F30;border-radius:4px}
-.hidden{display:none!important}
-.header{background:#3F0E40;position:sticky;top:0;z-index:50;border-bottom:1px solid #5C2B5E}
-.header-top{display:flex;align-items:center;gap:10px;padding:10px 16px 0}
-.header-logo{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
-.header-title{font-size:15px;font-weight:700;color:#fff;flex:1}
-.header-channel{font-size:11px;color:#BF8BC6;background:rgba(0,0,0,.2);padding:2px 8px;border-radius:20px}
-.header-tabs{display:flex;padding:8px 12px 0;gap:4px}
-.header-tab{flex:1;padding:8px 0;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;border:none;background:transparent;color:#BF8BC6}
-.header-tab.active{background:#1A1D1F;color:#fff}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#3F0E40;border-top:1px solid #5C2B5E;display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
-.nav-tab{flex:1;padding:10px 0 8px;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px}
-.nav-tab span.icon{font-size:20px}
-.nav-tab span.lbl{font-size:10px;font-weight:600;color:#BF8BC6;text-transform:capitalize}
-.nav-tab.active span.lbl{color:#fff}
-.nav-dot{width:4px;height:4px;border-radius:50%;background:#BF8BC6}
-.page{max-width:520px;margin:0 auto;padding:16px 14px 90px}
-.card{background:#222529;border-radius:12px;margin-bottom:16px;border:1px solid #383C42;position:relative;overflow:hidden}
-.card.blocked{border-left:3px solid #E8525A}
-.card.active-card{border-left:3px solid #BF8BC6}
-.card.rfd-card{border-left:3px solid #5CCE8A}
-.card-header{padding:12px 14px 10px;border-bottom:1px solid #2C2D30}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
-.card-vehicle{font-size:15px;font-weight:700;color:#fff}
-.card-customer{font-size:12px;color:#9B9EA4;margin-top:2px}
-.type-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;border:1px solid}
-.type-onsite{background:#2B1810;color:#E8912D;border-color:#5C3015}
-.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.pill-btn{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;background:#2C2D30;border:1px solid #383C42;font-size:12px;font-weight:500;color:#D1D2D3;min-height:32px}
-.pipeline-section{padding:14px 14px 10px;border-bottom:1px solid #2C2D30}
-.pipe-label{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.pipeline{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:4px;gap:0}
-.p-step{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;background:none;border:none;padding:0 3px;min-width:52px}
-.p-dot{width:42px;height:42px;border-radius:50%;border:2px solid #383C42;background:#222529;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#696B6D;transition:all .2s;margin:0 auto}
-.p-dot.done{background:#007A5A;border-color:#007A5A;color:#fff}
-.p-dot.cur{border-color:#BF8BC6;color:#BF8BC6;box-shadow:0 0 0 3px rgba(124,48,133,.2)}
-.p-dot.blk{background:#2B1215;border-color:#E8525A;color:#E8525A}
-.p-dot.rfd-cur{background:#0D2B1A;border-color:#5CCE8A;color:#5CCE8A}
-.p-lbl{font-size:9px;font-weight:600;text-align:center;line-height:1.3;max-width:52px;color:#696B6D}
-.p-lbl.done{color:#5CCE8A}
-.p-lbl.cur{color:#BF8BC6;font-weight:700}
-.p-lbl.blk{color:#E8525A;font-weight:700}
-.p-lbl.rfd-cur{color:#5CCE8A;font-weight:700}
-.p-line{flex:1;height:2px;background:#2C2D30;margin-top:21px;min-width:6px;transition:background .2s}
-.p-line.done{background:#007A5A}
-.blocker-bar{background:#2B1215;border:1px solid #5A1520;border-radius:8px;padding:9px 12px;margin:10px 14px 0;display:flex;justify-content:space-between;align-items:center}
-.blocker-txt{font-size:12px;color:#FF6B75;font-weight:600}
-.unblock-btn{font-size:11px;font-weight:700;color:#696B6D;background:none;border:1px solid #383C42;border-radius:20px;padding:6px 14px}
-.note-bar{background:#2B2010;border:1px solid #4A3810;border-radius:8px;padding:8px 12px;margin:8px 14px 0;font-size:11px;color:#ECB22E}
-.action-row{padding:10px 14px;display:flex;gap:8px}
-.complete-btn{flex:1;padding:13px 0;border-radius:8px;font-size:14px;font-weight:700;border:none;background:#007A5A;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
-.flag-btn{width:48px;height:48px;border-radius:8px;font-size:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #383C42;background:#222529}
-.flag-btn.flagged{border-color:#E8525A;background:#2B1215}
-.thread-section{border-top:1px solid #2C2D30;padding:10px 14px 12px}
-.sec-lbl{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.comment{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
-.c-av{width:28px;height:28px;border-radius:6px;background:#3F1B42;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#BF8BC6;flex-shrink:0}
-.c-name{font-size:13px;font-weight:700;color:#fff}
-.c-time{font-size:11px;color:#696B6D;margin-left:6px}
-.c-text{font-size:13px;color:#D1D2D3;margin-top:1px;line-height:1.4}
-.cin-row{display:flex;gap:8px;align-items:center;margin-top:8px}
-.cin{flex:1;background:#2C2D30;border:1px solid #383C42;border-radius:8px;padding:10px 12px;font-size:14px;color:#fff;outline:none;min-height:40px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1A1D1F;color:#D1D2D3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+button{cursor:pointer;font-family:inherit;border:none;-webkit-tap-highlight-color:transparent}
+.gone{display:none!important}
+.hdr{background:#3F0E40;position:sticky;top:0;z-index:10;border-bottom:1px solid #5C2B5E}
+.hdr-top{display:flex;align-items:center;gap:10px;padding:10px 16px 0}
+.logo{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.ev-title{font-size:15px;font-weight:700;color:#fff;flex:1}
+.chan{font-size:11px;color:#BF8BC6;background:rgba(0,0,0,.2);padding:2px 8px;border-radius:20px}
+.roletabs{display:flex;padding:8px 12px 0;gap:4px}
+.rtab{flex:1;padding:9px 0;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;background:transparent;color:#BF8BC6;min-height:44px}
+.rtab.sel{background:#1A1D1F;color:#fff}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#3F0E40;border-top:1px solid #5C2B5E;display:flex;z-index:10}
+.ntab{flex:1;padding:10px 0 12px;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:60px}
+.nicon{font-size:22px}
+.nlbl{font-size:10px;font-weight:600;color:#BF8BC6}
+.ntab.sel .nlbl{color:#fff}
+.ndot{width:5px;height:5px;border-radius:50%;background:#BF8BC6}
+.pg{max-width:520px;margin:0 auto;padding:16px 14px 100px}
+.card{background:#222529;border-radius:12px;margin-bottom:16px;border:1px solid #383C42;overflow:hidden;position:relative}
+.chead{padding:12px 14px 10px;border-bottom:1px solid #2C2D30}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.cname{font-size:15px;font-weight:700;color:#fff}
+.ccust{font-size:12px;color:#9B9EA4;margin-top:2px}
+.cbadge{font-size:10px;font-weight:700;padding:4px 10px;border-radius:4px;background:#2B1810;color:#E8912D;border:1px solid #5C3015}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:20px;background:#2C2D30;border:1px solid #383C42;font-size:12px;font-weight:600;min-height:40px}
+.psect{padding:14px;border-bottom:1px solid #2C2D30}
+.plbl-hdr{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.pipe{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:4px}
+.pstep{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;padding:2px 3px;flex-shrink:0;min-width:58px;min-height:74px}
+.pdot{width:46px;height:46px;border-radius:50%;border:2px solid #383C42;background:#222529;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#696B6D;margin:0 auto}
+.pdn{background:#007A5A!important;border-color:#007A5A!important;color:#fff!important}
+.pac{border-color:#BF8BC6!important;color:#BF8BC6!important}
+.pbk{background:#2B1215!important;border-color:#E8525A!important;color:#E8525A!important}
+.prf{background:#0D2B1A!important;border-color:#5CCE8A!important;color:#5CCE8A!important}
+.pstep-lbl{font-size:9px;font-weight:600;text-align:center;line-height:1.3;color:#696B6D;max-width:58px}
+.pstep-lbl.pdn{color:#5CCE8A!important}
+.pstep-lbl.pac{color:#BF8BC6!important}
+.pstep-lbl.pbk{color:#E8525A!important}
+.pstep-lbl.prf{color:#5CCE8A!important}
+.pline{flex:1;height:2px;background:#2C2D30;margin-top:23px;min-width:4px}
+.pline.pdn{background:#007A5A}
+.blk-bar{background:#2B1215;border:1px solid #5A1520;border-radius:8px;padding:10px 12px;margin:10px 14px 0;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.blk-txt{font-size:12px;color:#FF6B75;font-weight:600;flex:1}
+.ublk-btn{background:none;border:1px solid #383C42;border-radius:20px;padding:7px 14px;font-size:11px;color:#696B6D;min-height:38px}
+.note-bar{background:#2B2010;border:1px solid #4A3810;border-radius:8px;padding:9px 12px;margin:8px 14px;font-size:11px;color:#ECB22E}
+.arow{padding:12px 14px;display:flex;gap:8px}
+.mkbtn{flex:1;padding:14px;border-radius:8px;font-size:14px;font-weight:700;background:#007A5A;color:#fff;min-height:50px;display:flex;align-items:center;justify-content:center;gap:8px}
+.flbtn{width:50px;height:50px;border-radius:8px;font-size:20px;border:1px solid #383C42;background:#222529;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.flbtn.on{border-color:#E8525A;background:#2B1215}
+.tsect{border-top:1px solid #2C2D30;padding:12px 14px}
+.tslbl{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.cmnt{display:flex;gap:8px;margin-bottom:10px}
+.cav{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.cnm{font-size:13px;font-weight:700;color:#fff}
+.ctm{font-size:11px;color:#696B6D;margin-left:6px}
+.ctx{font-size:13px;color:#D1D2D3;margin-top:2px;line-height:1.4}
+.inrow{display:flex;gap:8px;align-items:center;margin-top:10px}
+.cin{flex:1;background:#2C2D30;border:1px solid #383C42;border-radius:8px;padding:10px 12px;font-size:14px;color:#fff;outline:none;min-height:44px}
 .cin::placeholder{color:#696B6D}
-.post-btn{font-size:13px;font-weight:700;color:#BF8BC6;background:none;border:none;padding:8px 4px;min-height:40px}
-.done-overlay{position:absolute;inset:0;background:rgba(26,29,31,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:12px}
-.done-inner{background:#0D2B1A;border:1px solid #007A5A;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;color:#5CCE8A}
-.undo-btn{font-size:12px;font-weight:600;color:#696B6D;background:none;border:1px solid #383C42;border-radius:20px;padding:8px 18px}
-.ing-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid;flex-shrink:0}
-.ing-await{background:#2B2010;color:#ECB22E;border-color:#4A3810}
-.ing-done{background:#0D2B1A;color:#5CCE8A;border-color:#007A5A}
-.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding:12px 14px}
-.d-lbl{font-size:10px;color:#696B6D;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.d-val{font-size:13px;color:#fff;font-weight:500;margin-top:2px}
-.photo-grid{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 12px}
-.photo-slot{width:58px;height:58px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.ps-empty{background:#2C2D30;border:1px solid #383C42;color:#696B6D}
-.ps-filled{background:#0D2B1A;border:1px solid #007A5A;color:#5CCE8A;font-size:16px}
-.inb-btn{width:100%;padding:13px 0;border-radius:8px;font-size:14px;font-weight:700;border:none;background:#1D9BD1;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
-.trip-route{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.rt-from{font-size:13px;font-weight:600;color:#fff;background:#2C2D30;padding:5px 10px;border-radius:6px}
-.rt-arrow{color:#696B6D;font-size:16px}
-.rt-to{font-size:13px;font-weight:600;color:#BF8BC6;background:#350D36;padding:5px 10px;border-radius:6px}
-.shuttle-pipe{display:flex;align-items:center;padding:12px 14px}
-.s-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
-.s-dot{width:38px;height:38px;border-radius:50%;border:2px solid #383C42;background:#2C2D30;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
-.s-dot.s-done{background:#007A5A;border-color:#007A5A}
-.s-dot.s-amber{background:#2B2010;border-color:#ECB22E}
-.s-dot.s-green{background:#0D2B1A;border-color:#5CCE8A}
-.s-lbl{font-size:9px;font-weight:600;text-align:center;color:#696B6D}
-.s-lbl.s-amber{color:#ECB22E}
-.s-lbl.s-green{color:#5CCE8A}
-.s-line{flex:1;height:2px;background:#2C2D30;margin-bottom:20px;min-width:10px;transition:background .2s}
-.s-line.done{background:#007A5A}
-.start-btn{flex:1;padding:12px 0;border-radius:8px;font-size:13px;font-weight:700;border:none;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px}
-/* ADVISOR */
-.adv-wrap{display:flex;align-items:flex-start}
-.adv-left{flex:1;padding:16px 12px 60px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.adv-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
-.auto-btn{padding:9px 16px;border-radius:8px;font-size:13px;font-weight:700;border:none;background:#BF8BC6;color:#1A1D1F;flex-shrink:0}
-.role-zone{background:#222529;border-radius:12px;border:2px solid #383C42;overflow:hidden;transition:border-color .15s}
-.rz-hdr{padding:10px 14px;border-bottom:1px solid #383C42;display:flex;align-items:center;gap:10px}
-.rz-name{font-size:14px;font-weight:700;text-transform:capitalize}
-.rz-tasks{font-size:11px;color:#696B6D;margin-top:1px}
-.rz-count{font-size:11px;font-weight:600;color:#696B6D;background:#2C2D30;padding:2px 8px;border-radius:20px;margin-left:auto}
-.chips-area{padding:10px 12px 8px;min-height:60px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
-.m-chip{display:flex;align-items:center;gap:7px;border-radius:8px;padding:8px 10px;border:1px solid;cursor:pointer}
-.chip-av{width:24px;height:24px;border-radius:6px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.chip-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap}
-.empty-zone{color:#696B6D;font-size:12px;padding:8px 4px;font-style:italic}
-.task-list{border-top:2px solid #383C42;margin-top:4px}
-.tl-hdr{padding:8px 14px 6px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.15)}
-.tl-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.tl-count{font-size:11px;font-weight:600;color:#696B6D;background:#2C2D30;padding:2px 8px;border-radius:20px}
-.task-row{padding:10px 14px;border-top:1px solid #2C2D30;transition:opacity .2s}
-.task-row.faded{opacity:.4}
-.tr-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.tr-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;flex-shrink:0}
-.tr-v{flex:1;font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tr-meta{display:flex;gap:10px;flex-wrap:wrap}
-.tr-meta span{font-size:11px;color:#9B9EA4}
-.mini-pipe{display:flex;gap:0;margin-top:8px;align-items:center}
-.mp-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.mp-line{flex:1;height:1.5px}
-.tr-route{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
-.tr-from{font-size:11px;color:#9B9EA4;background:#2C2D30;padding:3px 8px;border-radius:4px}
-.tr-arr{color:#696B6D;font-size:12px}
-.tr-to{font-size:11px;color:#BF8BC6;background:#350D36;padding:3px 8px;border-radius:4px}
-/* TEAM PANEL */
-.team-panel{width:200px;flex-shrink:0;border-left:1px solid #383C42;background:#222529;display:flex;flex-direction:column;position:sticky;top:98px;max-height:calc(100vh - 108px);overflow-y:auto;align-self:flex-start}
-@media(max-width:600px){
-  .adv-wrap{flex-direction:column}
-  .team-panel{width:100%;position:static;max-height:none;border-left:none;border-top:1px solid #383C42}
-  .adv-left{padding:12px 12px 20px}
-}
-.tp-hdr{padding:12px 14px 10px;border-bottom:1px solid #2C2D30;background:#222529}
-.tp-title{color:#fff;font-size:14px;font-weight:700}
-.tp-sub{color:#696B6D;font-size:11px;margin-top:2px}
-.team-list{padding:8px 10px}
-.ts-lbl{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.05em;padding:8px 4px 6px;display:block}
-.tm{display:flex;align-items:center;gap:9px;padding:10px 8px;border-radius:8px;margin-bottom:3px;border:1px solid transparent;transition:background .1s}
-.tm:active{background:#2C2D30}
-.tm.out{opacity:.4}
-.tm-av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.tm-name{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tm-role{font-size:10px;font-weight:600;text-transform:capitalize;margin-top:2px}
-.tm-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-left:auto}
-.team-div{border-top:1px solid #2C2D30;margin:10px 0 6px}
-/* ROLE PICKER SHEET */
-#role-sheet{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end}
-#role-sheet.open{display:flex}
-#role-sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-#role-sheet-content{position:relative;background:#222529;border-radius:16px 16px 0 0;width:100%;padding-bottom:env(safe-area-inset-bottom)}
-.rs-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #2C2D30}
-.rs-title{color:#fff;font-size:15px;font-weight:700}
-.rs-close{font-size:14px;color:#696B6D;background:none;border:none;padding:4px}
-.rs-opt{display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid #2C2D30;border:none;background:transparent;width:100%;cursor:pointer;text-align:left}
-.rs-opt:first-of-type{border-top:1px solid #2C2D30}
-.rs-icon{font-size:20px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px}
-.rs-label{font-size:15px;font-weight:600}
-.rs-check{margin-left:auto;font-size:16px;color:#5CCE8A}
-/* LOCATION SHEET */
-#loc-sheet{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end}
-#loc-sheet.open{display:flex}
-#loc-sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-#loc-sheet-content{position:relative;background:#222529;border-radius:16px 16px 0 0;width:100%;max-height:80vh;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom)}
-#chg-sheet{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end}
-#chg-sheet.open{display:flex}
-#chg-sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-#chg-sheet-content{position:relative;background:#222529;border-radius:16px 16px 0 0;width:100%;padding-bottom:env(safe-area-inset-bottom)}
-.sheet-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #2C2D30}
-.sheet-title{color:#fff;font-size:15px;font-weight:700}
-.sheet-close{font-size:14px;color:#696B6D;background:none;border:none;padding:4px}
-.sheet-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid #2C2D30;border:none;background:transparent;width:100%;cursor:pointer;text-align:left}
-.sheet-opt.selected{background:#350D36}
-.sheet-opt-label{font-size:15px;color:#fff;flex:1}
-.sheet-opt.selected .sheet-opt-label{color:#BF8BC6}
-.chg-opts{display:flex;gap:10px;flex-wrap:wrap;padding:16px}
-.chg-opt{padding:12px 18px;border-radius:20px;font-size:15px;font-weight:700;border:1px solid #383C42;background:transparent;min-height:44px}
-.chg-opt.selected{background:#2C2D30}
-/* TOAST */
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#222529;border:1px solid #383C42;border-radius:10px;padding:12px 18px;font-size:13px;color:#fff;display:none;align-items:center;gap:12px;z-index:300;box-shadow:0 8px 28px rgba(0,0,0,.8);max-width:90vw;white-space:nowrap}
+.postbtn{background:none;font-size:14px;font-weight:700;color:#BF8BC6;min-height:44px;padding:0 8px}
+.dov{position:absolute;inset:0;background:rgba(26,29,31,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border-radius:12px}
+.din{background:#0D2B1A;border:1px solid #007A5A;border-radius:10px;padding:14px 24px;font-size:14px;font-weight:700;color:#5CCE8A}
+.undobtn{background:none;border:1px solid #383C42;border-radius:20px;padding:10px 22px;font-size:13px;color:#696B6D;min-height:44px}
+.istat{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;padding:14px}
+.dlbl{font-size:10px;color:#696B6D;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.dval{font-size:14px;color:#fff;margin-top:3px}
+.pgrid{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}
+.pslot{width:60px;height:60px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;border:none}
+.sroute{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sfrom{font-size:13px;font-weight:600;color:#fff;background:#2C2D30;padding:6px 12px;border-radius:6px}
+.sto{font-size:13px;font-weight:600;color:#BF8BC6;background:#350D36;padding:6px 12px;border-radius:6px}
+.spipe{display:flex;align-items:center;padding:14px}
+.sstep{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0}
+.sdot{width:42px;height:42px;border-radius:50%;border:2px solid #383C42;background:#2C2D30;display:flex;align-items:center;justify-content:center;font-size:16px}
+.sline{flex:1;height:2px;background:#2C2D30;margin-bottom:22px;min-width:10px}
+.slbl{font-size:10px;font-weight:600;text-align:center;color:#696B6D}
+.stbtn{flex:1;padding:14px;border-radius:8px;font-size:13px;font-weight:700;color:#fff;min-height:50px;display:flex;align-items:center;justify-content:center;gap:6px}
+.advwrap{display:flex;align-items:flex-start}
+.advl{flex:1;padding:16px 12px 80px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.advhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.autobtn{padding:10px 16px;border-radius:8px;font-size:13px;font-weight:700;background:#BF8BC6;color:#1A1D1F;min-height:44px}
+.rzone{background:#222529;border-radius:12px;border:2px solid #383C42;overflow:hidden}
+.rzhdr{padding:10px 14px;border-bottom:1px solid #383C42;display:flex;align-items:center;gap:10px}
+.rzname{font-size:14px;font-weight:700;text-transform:capitalize}
+.rztasks{font-size:11px;color:#696B6D;margin-top:2px}
+.rzct{font-size:11px;font-weight:600;color:#696B6D;background:#2C2D30;padding:3px 10px;border-radius:20px;margin-left:auto}
+.chiparea{padding:10px 12px;min-height:56px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:7px;border-radius:8px;padding:8px 12px;border:1px solid;background:none;min-height:44px}
+.chav{width:26px;height:26px;border-radius:6px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.chnm{font-size:13px;font-weight:600;color:#fff;white-space:nowrap}
+.tlist{border-top:2px solid #383C42;margin-top:4px}
+.tlhdr{padding:8px 14px 6px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.15)}
+.tllbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.tlcnt{font-size:11px;font-weight:600;color:#696B6D;background:#2C2D30;padding:2px 9px;border-radius:20px}
+.trow{padding:10px 14px;border-top:1px solid #2C2D30}
+.trow.fd{opacity:.4}
+.trtop{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.trbg{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0}
+.trv{flex:1;font-size:13px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trmeta{display:flex;gap:10px;flex-wrap:wrap}
+.trmeta span{font-size:11px;color:#9B9EA4}
+.tpanel{width:200px;flex-shrink:0;border-left:1px solid #383C42;background:#222529;position:sticky;top:98px;max-height:calc(100vh - 108px);overflow-y:auto;align-self:flex-start}
+@media(max-width:560px){.advwrap{flex-direction:column}.tpanel{width:100%;position:static;max-height:none;border-left:none;border-top:1px solid #383C42}.advl{padding:12px 12px 20px}}
+.tphdr{padding:14px;border-bottom:1px solid #2C2D30}
+.tptit{color:#fff;font-size:14px;font-weight:700}
+.tpsub{color:#696B6D;font-size:11px;margin-top:2px}
+.tmem{display:flex;align-items:center;gap:9px;padding:10px 8px;border-radius:8px;margin:2px 8px;background:transparent;width:calc(100% - 16px);text-align:left;min-height:54px;border:none}
+.tmav{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.tmnm{font-size:13px;font-weight:600;color:#fff;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tmrl{font-size:10px;font-weight:600;text-transform:capitalize;text-align:left;margin-top:2px}
+.tmdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-left:auto}
+.tseclbl{font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.05em;padding:10px 16px 4px;display:block}
+.tdiv{border-top:1px solid #2C2D30;margin:8px 0}
+.modal{display:none;position:fixed;left:0;right:0;bottom:0;top:0;z-index:50;background:rgba(0,0,0,.7);align-items:flex-end}
+.modal.show{display:flex}
+.mbox{background:#222529;border-radius:16px 16px 0 0;width:100%;max-height:80vh;overflow-y:auto}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid #2C2D30}
+.mtit{color:#fff;font-size:16px;font-weight:700}
+.mcls{background:none;font-size:15px;font-weight:600;color:#BF8BC6;padding:8px 12px;min-height:44px}
+.mopt{display:flex;align-items:center;gap:14px;padding:16px;border-top:1px solid #2C2D30;background:transparent;width:100%;text-align:left;min-height:58px;border-left:none;border-right:none;border-bottom:none}
+.mopt.sel{background:#350D36}
+.mopt .mi{font-size:22px;width:34px;text-align:center}
+.mopt .ml{font-size:15px;color:#fff;flex:1;font-weight:500}
+.mopt.sel .ml{color:#BF8BC6}
+.mopt .mc{color:#5CCE8A;font-size:18px}
+.cgrid{display:flex;flex-wrap:wrap;gap:12px;padding:20px}
+.copt{padding:14px 20px;border-radius:20px;font-size:16px;font-weight:700;border:1px solid #383C42;background:transparent;min-height:54px;min-width:76px}
+.intog{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1px solid #007A5A;background:#0D2B1A;min-height:40px}
+.itdot{width:8px;height:8px;border-radius:50%;background:#5CCE8A}
+.itlbl{font-size:12px;font-weight:600;color:#5CCE8A}
+#toast{display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#222529;border:1px solid #383C42;border-radius:10px;padding:12px 18px;font-size:13px;color:#fff;align-items:center;gap:12px;z-index:60;box-shadow:0 4px 20px rgba(0,0,0,.6);max-width:92vw;white-space:nowrap}
 #toast.show{display:flex}
-#toast-undo{font-size:12px;font-weight:700;color:#BF8BC6;background:none;border:none;padding:4px;min-height:32px}
-.in-toggle{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1px solid #007A5A;background:#0D2B1A;flex-shrink:0;min-height:36px}
-.it-dot{width:7px;height:7px;border-radius:50%;background:#5CCE8A}
-.it-lbl{font-size:12px;font-weight:600;color:#5CCE8A}
+.tundb{background:none;font-size:12px;font-weight:700;color:#BF8BC6;padding:4px 8px;min-height:36px}
 </style>
 </head>
 <body>
-<div id="app">
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div class="header-logo">E</div>
-    <span class="header-title">Ever Cars</span>
-    <span class="header-channel" id="hdr-ch"># sf-onsite-delivery</span>
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">E</div>
+    <span class="ev-title">Ever Cars</span>
+    <span class="chan" id="chan"># sf-onsite-delivery</span>
   </div>
-  <div class="header-tabs">
-    <button class="header-tab active" onclick="switchRole('spec',this)">👤 My Tasks</button>
-    <button class="header-tab" onclick="switchRole('adv',this)">📊 Team View</button>
+  <div class="roletabs">
+    <button class="rtab sel" onclick="setRole('spec',this)">👤 My Tasks</button>
+    <button class="rtab" onclick="setRole('adv',this)">📊 Team View</button>
   </div>
 </div>
 
-<!-- SPECIALIST -->
-<div id="spec-view">
-  <!-- INVENTORY -->
-  <div id="tab-inventory" class="page">
+<div id="sv">
+  <div id="ti" class="pg">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px">
-      <div><p style="color:#fff;font-size:20px;font-weight:700">Good evening, Ace 👋</p><p style="color:#696B6D;font-size:13px;margin-top:4px">2 active deliveries</p></div>
-      <button class="in-toggle" onclick="toggleIn(this)"><div class="it-dot"></div><span class="it-lbl">In today</span></button>
+      <div>
+        <p style="color:#fff;font-size:20px;font-weight:700">Good evening, Ace 👋</p>
+        <p style="color:#696B6D;font-size:13px;margin-top:4px">2 active deliveries</p>
+      </div>
+      <button class="intog" onclick="togIn(this)"><div class="itdot"></div><span class="itlbl">In today</span></button>
     </div>
-    <!-- CARD 1 -->
-    <div class="card blocked" id="card-d1">
-      <div class="card-header">
-        <div class="card-top">
-          <div><p class="card-vehicle">2019 Tesla Model 3</p><p class="card-customer">R. Jones</p></div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0"><span class="type-badge type-onsite">ON-SITE</span><span style="font-size:11px;color:#696B6D">In person now</span></div>
+
+    <div class="card" style="border-left:3px solid #E8525A" id="c1">
+      <div class="chead">
+        <div class="ctop">
+          <div><p class="cname">2019 Tesla Model 3</p><p class="ccust">R. Jones</p></div>
+          <div style="text-align:right"><span class="cbadge">ON-SITE</span><p style="font-size:11px;color:#696B6D;margin-top:4px">In person now</p></div>
         </div>
-        <div class="meta-row">
-          <button class="pill-btn" onclick="openLoc('d1')"><span>🚗</span><span id="loc-d1">Car wash</span><span style="font-size:9px;color:#696B6D;margin-left:2px">▾</span></button>
-          <button class="pill-btn" onclick="openChg('d1')" style="color:#E8525A;font-weight:600"><span>⚡</span><span id="chg-d1">25%</span><span style="font-size:9px;color:#696B6D;margin-left:2px">▾</span></button>
-          <span style="display:flex;align-items:center;gap:4px;padding:4px 8px;font-size:11px;color:#696B6D">👤 Ace</span>
-        </div>
-      </div>
-      <div class="pipeline-section">
-        <div class="pipe-label">Delivery stage — tap to update</div>
-        <div class="pipeline">
-          <button class="p-step" onclick="setStage('d1',0)"><div class="p-dot done">REQ</div><span class="p-lbl done">Requested</span></button>
-          <div class="p-line done" id="pl-d1-0"></div>
-          <button class="p-step" onclick="setStage('d1',1)"><div class="p-dot done">RFS</div><span class="p-lbl done">Ready for Sale</span></button>
-          <div class="p-line done" id="pl-d1-1"></div>
-          <button class="p-step" onclick="setStage('d1',2)"><div class="p-dot done">BRD</div><span class="p-lbl done">Boarded</span></button>
-          <div class="p-line" id="pl-d1-2"></div>
-          <button class="p-step" onclick="setStage('d1',3)"><div class="p-dot blk" id="pd-d1-3">PREP</div><span class="p-lbl blk" id="pl-d1-3t">Prepped</span></button>
-          <div class="p-line" id="pl-d1-3"></div>
-          <button class="p-step" onclick="setStage('d1',4)"><div class="p-dot" id="pd-d1-4">RFD</div><span class="p-lbl" id="pl-d1-4t">Ready for Delivery</span></button>
+        <div class="pills">
+          <button class="pill" onclick="showLoc('d1')" style="color:#D1D2D3"><span>🚗</span><span id="ld1">Car wash</span><span style="font-size:10px;color:#696B6D">▾</span></button>
+          <button class="pill" onclick="showChg('d1')" id="cpd1" style="color:#E8525A"><span>⚡</span><span id="cd1">25%</span><span style="font-size:10px;color:#696B6D">▾</span></button>
         </div>
       </div>
-      <div class="blocker-bar" id="blocker-d1"><span class="blocker-txt">🚫 Charger issue — EA unavailable</span><button class="unblock-btn" onclick="unblock('d1')">Unblock</button></div>
-      <div class="note-bar" style="margin-bottom:10px">💬 Confirm OEM charger, flashlight, wireless speaker</div>
-      <div class="action-row">
-        <button class="complete-btn" onclick="markComplete('d1')">✓ Mark complete</button>
-        <button class="flag-btn" id="flag-d1" onclick="toggleFlag('d1')">🚩</button>
+      <div class="psect">
+        <div class="plbl-hdr">Delivery stage — tap to update</div>
+        <div class="pipe">
+          <button class="pstep" onclick="setSt('d1',0)"><div class="pdot pdn" id="p1-0">REQ</div><span class="pstep-lbl pdn">Requested</span></button>
+          <div class="pline pdn" id="l1-0"></div>
+          <button class="pstep" onclick="setSt('d1',1)"><div class="pdot pdn" id="p1-1">RFS</div><span class="pstep-lbl pdn">Ready for Sale</span></button>
+          <div class="pline" id="l1-1"></div>
+          <button class="pstep" onclick="setSt('d1',2)"><div class="pdot pbk" id="p1-2">PREP</div><span class="pstep-lbl pbk">Prepped</span></button>
+          <div class="pline" id="l1-2"></div>
+          <button class="pstep" onclick="setSt('d1',3)"><div class="pdot" id="p1-3">RFD</div><span class="pstep-lbl">Ready for Delivery</span></button>
+        </div>
       </div>
-      <div class="thread-section">
-        <div class="sec-lbl">Thread</div>
-        <div class="comment"><div class="c-av" style="background:#0E2840;color:#5BC8F5">S1</div><div><div><span class="c-name">Specialist 1</span><span class="c-time">3:08 PM</span></div><p class="c-text">Key on my desk, vehicle at HQ charging. Handle ASAP.</p></div></div>
-        <div class="comment"><div class="c-av" style="background:#0E2840;color:#5BC8F5">S6</div><div><div><span class="c-name">Specialist 6</span><span class="c-time">3:44 PM</span></div><p class="c-text">EA charger failing. Trying another port.</p></div></div>
-        <div id="cm-d1"></div>
-        <div class="cin-row"><input class="cin" id="ci-d1" placeholder="Update the thread…" onkeydown="if(event.key==='Enter')postComment('d1')"><button onclick="preflag('d1')" style="font-size:18px;background:none;border:none;padding:6px;min-height:40px">🚩</button><button class="post-btn" onclick="postComment('d1')">Post</button></div>
+      <div class="blk-bar" id="blk1"><span class="blk-txt">🚫 Charger issue — EA unavailable</span><button class="ublk-btn" onclick="unblk('d1')">Unblock</button></div>
+      <div class="note-bar">💬 Confirm OEM charger, flashlight, wireless speaker</div>
+      <div class="arow">
+        <button class="mkbtn" onclick="markDone('d1')">✓ Mark complete</button>
+        <button class="flbtn" id="f1" onclick="flagIt('d1')">🚩</button>
       </div>
-      <div class="done-overlay hidden" id="done-d1"><div class="done-inner">✓ Complete — Patrick notified</div><button class="undo-btn" onclick="undoComplete('d1')">↩ Undo</button></div>
+      <div class="tsect">
+        <div class="tslbl">Thread</div>
+        <div class="cmnt"><div class="cav" style="background:#0E2840;color:#5BC8F5">S1</div><div><div><span class="cnm">Specialist 1</span><span class="ctm">3:08 PM</span></div><p class="ctx">Key on my desk, vehicle at HQ charging. Handle ASAP.</p></div></div>
+        <div class="cmnt"><div class="cav" style="background:#0E2840;color:#5BC8F5">S6</div><div><div><span class="cnm">Specialist 6</span><span class="ctm">3:44 PM</span></div><p class="ctx">EA charger failing. Trying another port.</p></div></div>
+        <div id="th1"></div>
+        <div class="inrow"><input class="cin" id="in1" placeholder="Update the thread…"><button class="postbtn" onclick="post('d1')">Post</button></div>
+      </div>
+      <div class="dov gone" id="dv1"><div class="din">✓ Complete — Patrick notified</div><button class="undobtn" onclick="undone('d1')">↩ Undo</button></div>
     </div>
-    <!-- CARD 2 -->
-    <div class="card rfd-card" id="card-d2">
-      <div class="card-header">
-        <div class="card-top">
-          <div><p class="card-vehicle">2024 Rivian R1S</p><p class="card-customer">S. Zaman</p></div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0"><span class="type-badge type-onsite">ON-SITE</span><span style="font-size:11px;color:#696B6D">Sat 11am</span></div>
+
+    <div class="card" style="border-left:3px solid #5CCE8A" id="c2">
+      <div class="chead">
+        <div class="ctop">
+          <div><p class="cname">2024 Rivian R1S</p><p class="ccust">S. Zaman</p></div>
+          <div style="text-align:right"><span class="cbadge">ON-SITE</span><p style="font-size:11px;color:#696B6D;margin-top:4px">Sat 11am</p></div>
         </div>
-        <div class="meta-row">
-          <button class="pill-btn" onclick="openLoc('d2')"><span>🏢</span><span id="loc-d2">HQ</span><span style="font-size:9px;color:#696B6D;margin-left:2px">▾</span></button>
-          <button class="pill-btn" onclick="openChg('d2')" style="color:#5CCE8A;font-weight:600"><span>⚡</span><span id="chg-d2">80%</span><span style="font-size:9px;color:#696B6D;margin-left:2px">▾</span></button>
-          <span style="display:flex;align-items:center;gap:4px;padding:4px 8px;font-size:11px;color:#696B6D">🔑 2 keys</span>
-        </div>
-      </div>
-      <div class="pipeline-section">
-        <div class="pipe-label">Delivery stage — tap to update</div>
-        <div class="pipeline">
-          <button class="p-step" onclick="setStage('d2',0)"><div class="p-dot done">REQ</div><span class="p-lbl done">Requested</span></button>
-          <div class="p-line done"></div>
-          <button class="p-step" onclick="setStage('d2',1)"><div class="p-dot done">RFS</div><span class="p-lbl done">Ready for Sale</span></button>
-          <div class="p-line done"></div>
-          <button class="p-step" onclick="setStage('d2',2)"><div class="p-dot done">BRD</div><span class="p-lbl done">Boarded</span></button>
-          <div class="p-line done"></div>
-          <button class="p-step" onclick="setStage('d2',3)"><div class="p-dot done">PREP</div><span class="p-lbl done">Prepped</span></button>
-          <div class="p-line done"></div>
-          <button class="p-step" onclick="setStage('d2',4)"><div class="p-dot rfd-cur">RFD</div><span class="p-lbl rfd-cur">Ready for Delivery</span></button>
+        <div class="pills">
+          <button class="pill" onclick="showLoc('d2')" style="color:#D1D2D3"><span>🏢</span><span id="ld2">HQ</span><span style="font-size:10px;color:#696B6D">▾</span></button>
+          <button class="pill" onclick="showChg('d2')" id="cpd2" style="color:#5CCE8A"><span>⚡</span><span id="cd2">80%</span><span style="font-size:10px;color:#696B6D">▾</span></button>
+          <span style="display:flex;align-items:center;gap:4px;padding:8px;font-size:11px;color:#696B6D">🔑 2 keys</span>
         </div>
       </div>
-      <div class="action-row">
-        <button class="complete-btn" onclick="markComplete('d2')">✓ Mark complete</button>
-        <button class="flag-btn" id="flag-d2" onclick="toggleFlag('d2')">🚩</button>
+      <div class="psect">
+        <div class="plbl-hdr">Delivery stage — tap to update</div>
+        <div class="pipe">
+          <button class="pstep" onclick="setSt('d2',0)"><div class="pdot pdn" id="p2-0">REQ</div><span class="pstep-lbl pdn">Requested</span></button>
+          <div class="pline pdn" id="l2-0"></div>
+          <button class="pstep" onclick="setSt('d2',1)"><div class="pdot pdn" id="p2-1">RFS</div><span class="pstep-lbl pdn">Ready for Sale</span></button>
+          <div class="pline pdn" id="l2-1"></div>
+          <button class="pstep" onclick="setSt('d2',2)"><div class="pdot pdn" id="p2-2">PREP</div><span class="pstep-lbl pdn">Prepped</span></button>
+          <div class="pline pdn" id="l2-2"></div>
+          <button class="pstep" onclick="setSt('d2',3)"><div class="pdot prf" id="p2-3">RFD</div><span class="pstep-lbl prf">Ready for Delivery</span></button>
+        </div>
       </div>
-      <div class="thread-section">
-        <div class="sec-lbl">Thread</div>
-        <div id="cm-d2"></div>
-        <div class="cin-row"><input class="cin" id="ci-d2" placeholder="Update the thread…" onkeydown="if(event.key==='Enter')postComment('d2')"><button onclick="preflag('d2')" style="font-size:18px;background:none;border:none;padding:6px;min-height:40px">🚩</button><button class="post-btn" onclick="postComment('d2')">Post</button></div>
+      <div class="arow">
+        <button class="mkbtn" onclick="markDone('d2')">✓ Mark complete</button>
+        <button class="flbtn" id="f2" onclick="flagIt('d2')">🚩</button>
       </div>
-      <div class="done-overlay hidden" id="done-d2"><div class="done-inner">✓ Complete — Patrick notified</div><button class="undo-btn" onclick="undoComplete('d2')">↩ Undo</button></div>
+      <div class="tsect">
+        <div class="tslbl">Thread</div>
+        <div id="th2"></div>
+        <div class="inrow"><input class="cin" id="in2" placeholder="Update the thread…"><button class="postbtn" onclick="post('d2')">Post</button></div>
+      </div>
+      <div class="dov gone" id="dv2"><div class="din">✓ Complete — Patrick notified</div><button class="undobtn" onclick="undone('d2')">↩ Undo</button></div>
     </div>
   </div>
-  <!-- INGRESS -->
-  <div id="tab-ingress" class="page hidden"><p style="color:#fff;font-size:20px;font-weight:700;margin-bottom:4px">Inbound Vehicles</p><p style="color:#696B6D;font-size:13px;margin-bottom:20px">2 awaiting · 1 inbounded</p><div id="ing-cards"></div></div>
-  <!-- SHUTTLING -->
-  <div id="tab-shuttling" class="page hidden"><p style="color:#fff;font-size:20px;font-weight:700;margin-bottom:4px">Shuttle Trips</p><p style="color:#696B6D;font-size:13px;margin-bottom:20px">2 active · 1 complete</p><div id="sht-cards"></div></div>
+
+  <div id="tig" class="pg gone">
+    <p style="color:#fff;font-size:20px;font-weight:700;margin-bottom:4px">Inbound Vehicles</p>
+    <p style="color:#696B6D;font-size:13px;margin-bottom:20px">2 awaiting · 1 inbounded</p>
+    <div id="igc"></div>
+  </div>
+
+  <div id="tsh" class="pg gone">
+    <p style="color:#fff;font-size:20px;font-weight:700;margin-bottom:4px">Shuttle Trips</p>
+    <p style="color:#696B6D;font-size:13px;margin-bottom:20px">2 active · 1 complete</p>
+    <div id="shc"></div>
+  </div>
 </div>
 
-<!-- ADVISOR -->
-<div id="adv-view" class="hidden">
-  <div class="adv-wrap">
-    <div class="adv-left">
-      <div class="adv-hdr">
+<div id="av" class="gone">
+  <div class="advwrap">
+    <div class="advl">
+      <div class="advhdr">
         <div><p style="color:#fff;font-size:18px;font-weight:700">Role Assignment</p><p style="color:#696B6D;font-size:12px;margin-top:3px">Tap a specialist to reassign their role</p></div>
-        <button class="auto-btn" onclick="autoAssign()">✦ Auto-assign</button>
+        <button class="autobtn" onclick="autoAssign()">✦ Auto-assign</button>
       </div>
-      <div id="role-zones"></div>
+      <div id="rzones"></div>
     </div>
-    <div class="team-panel"><div class="tp-hdr"><p class="tp-title">Team</p><p class="tp-sub" id="tp-sub">8 in · 2 out</p></div><div class="team-list" id="team-list"></div></div>
+    <div class="tpanel">
+      <div class="tphdr"><p class="tptit">Team</p><p class="tpsub" id="tpsub">8 in · 2 out</p></div>
+      <div id="tlist"></div>
+    </div>
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
-<div class="bottom-nav" id="bottom-nav">
-  <button class="nav-tab active" onclick="switchTab('inventory',this)"><span class="icon">📦</span><span class="lbl">Inventory</span><div class="nav-dot"></div></button>
-  <button class="nav-tab" onclick="switchTab('ingress',this)"><span class="icon">🚛</span><span class="lbl">Ingress</span></button>
-  <button class="nav-tab" onclick="switchTab('shuttling',this)"><span class="icon">🔄</span><span class="lbl">Shuttling</span></button>
+<div class="bnav" id="bnav">
+  <button class="ntab sel" onclick="setTab('inventory',this)"><span class="nicon">📦</span><span class="nlbl">Inventory</span><div class="ndot"></div></button>
+  <button class="ntab" onclick="setTab('ingress',this)"><span class="nicon">🚛</span><span class="nlbl">Ingress</span></button>
+  <button class="ntab" onclick="setTab('shuttling',this)"><span class="nicon">🔄</span><span class="nlbl">Shuttling</span></button>
 </div>
 
-<!-- LOCATION SHEET -->
-<div id="loc-sheet" onclick="closeLocSheet(event)">
-  <div id="loc-sheet-bg"></div>
-  <div id="loc-sheet-content">
-    <div class="sheet-hdr"><span class="sheet-title">Update location</span><button class="sheet-close" onclick="closeLocSheet()">Done</button></div>
-    <div id="loc-opts"></div>
+<div class="modal" id="locM">
+  <div class="mbox" id="locBox">
+    <div class="mhdr"><span class="mtit">Update location</span><button class="mcls" onclick="closeM('locM')">Done</button></div>
+    <div id="locOpts"></div>
+  </div>
+</div>
+<div class="modal" id="chgM">
+  <div class="mbox">
+    <div class="mhdr"><span class="mtit">Update charge</span><button class="mcls" onclick="closeM('chgM')">Done</button></div>
+    <div class="cgrid" id="chgOpts"></div>
+  </div>
+</div>
+<div class="modal" id="roleM">
+  <div class="mbox">
+    <div class="mhdr"><span class="mtit" id="roleTit">Assign role</span><button class="mcls" onclick="closeM('roleM')">Done</button></div>
+    <div id="roleOpts"></div>
   </div>
 </div>
 
-<!-- CHARGE SHEET -->
-<div id="chg-sheet" onclick="closeChgSheet(event)">
-  <div id="chg-sheet-bg"></div>
-  <div id="chg-sheet-content">
-    <div class="sheet-hdr"><span class="sheet-title">Update charge level</span><button class="sheet-close" onclick="closeChgSheet()">Done</button></div>
-    <div class="chg-opts" id="chg-opts"></div>
-    <p style="font-size:11px;color:#696B6D;padding:0 16px 16px">Tap to select · auto-logs to thread</p>
-  </div>
-</div>
-
-<!-- ROLE SHEET (advisor) -->
-<div id="role-sheet" onclick="closeRoleSheet(event)">
-  <div id="role-sheet-bg"></div>
-  <div id="role-sheet-content">
-    <div class="rs-hdr"><span class="rs-title" id="rs-title">Assign role</span><button class="rs-close" onclick="closeRoleSheet()">Done</button></div>
-    <div id="rs-opts"></div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="toast"><span id="toast-msg"></span><button id="toast-undo" class="hidden" onclick="runUndo()">Undo</button></div>
+<div id="toast"><span id="tmsg"></span><button class="tundb gone" id="tundb" onclick="runUndo()">Undo</button></div>
 
 <script>
 var LOCS=[{e:'🏢',l:'HQ'},{e:'🅿️',l:'Morris'},{e:'⚡',l:'EA — Charging'},{e:'🚗',l:'OTW to EA'},{e:'🚗',l:'OTW to Detail'},{e:'✨',l:'Staged at Detail'},{e:'🚿',l:'In line — Car Wash'},{e:'🫧',l:'At Car Wash'},{e:'🚗',l:'OTW to HQ'}];
 var CHGS=[15,25,50,80,100];
-var SLABELS=['Requested','Ready for Sale','Boarded','Prepped','Ready for Delivery'];
-var CHANNELS={inventory:'# sf-onsite-delivery',ingress:'# sf-inbound-landed',shuttling:'# sf-delivery-ops'};
-var ROLE_COLORS={inventory:'#BF8BC6',ingress:'#5BC8F5',shuttling:'#5CCE8A'};
-var ROLE_BGS={inventory:'#2A1535',ingress:'#0E2840',shuttling:'#0D2B1A'};
-var ROLE_BORDERS={inventory:'#5C2B5E',ingress:'#1A4060',shuttling:'#1A4A2A'};
-var ROLE_ICONS={inventory:'📦',ingress:'🚛',shuttling:'🔄'};
-var cardLocs={d1:'Car wash',d2:'HQ'}, cardChgs={d1:25,d2:80};
-var cardStages={d1:3,d2:4}, cardBlocked={d1:true,d2:false};
-var activeLoc=null, activeChg=null, activeRoleMember=null;
-var toastTimer=null, toastUndoFn=null;
-
+var SLBLS=['Requested','Ready for Sale','Prepped','Ready for Delivery'];
+var RC={inventory:'#BF8BC6',ingress:'#5BC8F5',shuttling:'#5CCE8A'};
+var RB={inventory:'#2A1535',ingress:'#0E2840',shuttling:'#0D2B1A'};
+var RI={inventory:'📦',ingress:'🚛',shuttling:'🔄'};
+var locs={d1:'Car wash',d2:'HQ'},chgs={d1:25,d2:80};
+var stgs={d1:2,d2:3},blkd={d1:true,d2:false};
+var tTimer=null,tUndo=null;
 var TEAM=[
   {id:'t1',i:'S1',n:'Specialist 1',c:'#5BC8F5',bg:'#0E2840',role:'ingress',in:true},
   {id:'t2',i:'AV',n:'Ace Venenciano',c:'#BF8BC6',bg:'#3F1B42',role:'shuttling',in:true},
@@ -386,226 +321,235 @@ var TEAM=[
   {id:'t9',i:'S8',n:'Specialist 8',c:'#888',bg:'#222',role:'inventory',in:false},
   {id:'t10',i:'S9',n:'Specialist 9',c:'#888',bg:'#222',role:'shuttling',in:false},
 ];
-var INGRESS=[
+var ING=[
   {id:'i1',vin:'P2961549',status:'awaiting',insp:'Ace Venenciano',miles:12450,ext:'Silver',int:'Black',keys:2,chg:45,charger:'Yes',lights:'None',dmg:'',photos:0},
   {id:'i2',vin:'SF052182',status:'awaiting',insp:'Specialist 1',miles:8230,ext:'White',int:'Gray',keys:1,chg:80,charger:'Yes',lights:'None',dmg:'Minor scratch rear bumper',photos:3},
   {id:'i3',vin:'RN044461',status:'inbounded',insp:'Specialist 1',miles:5120,ext:'Blue',int:'Black',keys:2,chg:65,charger:'Yes',lights:'None',dmg:'',photos:7},
 ];
-var SHUTTLE=[
-  {id:'s1',vehicle:'2023 Rivian R1T',vin:'PN027059',from:'HQ',to:'Roberts Tires',type:'drop-off',status:'en-route',assigned:'Ace Venenciano'},
-  {id:'s2',vehicle:'2022 Hyundai Ioniq 5',vin:'NF475840',from:'Hyundai San Bruno',to:'HQ',type:'pickup',status:'pending',assigned:'Ace Venenciano'},
-  {id:'s3',vehicle:'2024 Kia EV9',vin:'R6021953',from:'HQ',to:'AGN',type:'both',status:'complete',assigned:'Specialist 3'},
+var SHT=[
+  {id:'s1',vehicle:'2023 Rivian R1T',vin:'PN027059',from:'HQ',to:'Roberts Tires',type:'drop-off',status:'en-route',who:'Ace Venenciano'},
+  {id:'s2',vehicle:'2022 Hyundai Ioniq 5',vin:'NF475840',from:'Hyundai San Bruno',to:'HQ',type:'pickup',status:'pending',who:'Ace Venenciano'},
+  {id:'s3',vehicle:'2024 Kia EV9',vin:'R6021953',from:'HQ',to:'AGN',type:'both',status:'complete',who:'Specialist 3'},
 ];
 
+function g(id){return document.getElementById(id)}
 function cc(n){return n<40?'#E8525A':n<70?'#ECB22E':'#5CCE8A'}
+function show(el){el.classList.remove('gone')}
+function hide(el){el.classList.add('gone')}
 
-function switchRole(r,btn){
-  document.querySelectorAll('.header-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('spec-view').classList.toggle('hidden',r==='adv');
-  document.getElementById('adv-view').classList.toggle('hidden',r==='spec');
-  document.getElementById('bottom-nav').classList.toggle('hidden',r==='adv');
-  document.getElementById('toast').style.bottom=r==='spec'?'80px':'24px';
-  if(r==='adv'){renderAdvisor();}
+function setRole(r,btn){
+  document.querySelectorAll('.rtab').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+  if(r==='spec'){show(g('sv'));hide(g('av'));show(g('bnav'));}
+  else{hide(g('sv'));show(g('av'));hide(g('bnav'));renderAdv();}
+  g('toast').style.bottom=r==='spec'?'80px':'24px';
 }
-function switchTab(tab,btn){
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  ['inventory','ingress','shuttling'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==tab));
-  document.getElementById('hdr-ch').textContent=CHANNELS[tab];
-  if(tab==='ingress')renderIngress();
-  if(tab==='shuttling')renderShuttling();
+function setTab(tab,btn){
+  document.querySelectorAll('.ntab').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+  hide(g('ti'));hide(g('tig'));hide(g('tsh'));
+  show(g(tab==='inventory'?'ti':tab==='ingress'?'tig':'tsh'));
+  g('chan').textContent=tab==='inventory'?'# sf-onsite-delivery':tab==='ingress'?'# sf-inbound-landed':'# sf-delivery-ops';
+  if(tab==='ingress')renderIng();
+  if(tab==='shuttling')renderSht();
 }
+function openM(id){g(id).classList.add('show');}
+function closeM(id){g(id).classList.remove('show');}
+['locM','chgM','roleM'].forEach(function(id){g(id).addEventListener('click',function(e){if(e.target===g(id))closeM(id);});});
 
-// ── INVENTORY ──
-function setStage(card,idx){
-  var prev=cardStages[card],prevB=cardBlocked[card];
-  cardStages[card]=idx;cardBlocked[card]=false;
-  refreshPipe(card);
-  var b=document.getElementById('blocker-'+card);if(b)b.style.display='none';
-  showToast('Stage → '+SLABELS[idx],function(){cardStages[card]=prev;cardBlocked[card]=prevB;refreshPipe(card);if(b&&prevB)b.style.display='';});
+function setSt(card,idx){
+  var prev=stgs[card],prevB=blkd[card];
+  stgs[card]=idx;blkd[card]=false;
+  rPipe(card);
+  var bb=g('blk'+card.slice(1));if(bb)bb.style.display='none';
+  tst('Stage → '+SLBLS[idx],function(){stgs[card]=prev;blkd[card]=prevB;rPipe(card);if(bb&&prevB)bb.style.display='';});
 }
-function refreshPipe(card){
-  var s=cardStages[card],blk=cardBlocked[card];
-  [0,1,2,3,4].forEach(function(i){
-    var dot=document.getElementById('pd-'+card+'-'+i);
-    var lbl=document.getElementById('pl-'+card+'-'+i+'t');
-    var line=document.getElementById('pl-'+card+'-'+i);
-    if(!dot)return;
-    dot.className='p-dot';lbl.className='p-lbl';
-    if(i<s){dot.classList.add('done');lbl.classList.add('done');}
-    else if(i===s){if(blk){dot.classList.add('blk');lbl.classList.add('blk');}else if(i===4){dot.classList.add('rfd-cur');lbl.classList.add('rfd-cur');}else{dot.classList.add('cur');lbl.classList.add('cur');}}
-    if(line)line.className='p-line'+(i<s?' done':'');
-  });
+function rPipe(card){
+  var n=card.slice(1),s=stgs[card],b=blkd[card];
+  for(var i=0;i<4;i++){
+    var dot=g('p'+n+'-'+i);
+    var line=g('l'+n+'-'+i);
+    if(!dot)continue;
+    var lbl=dot.parentElement?dot.parentElement.querySelector('.pstep-lbl'):null;
+    dot.className='pdot';
+    if(lbl)lbl.className='pstep-lbl';
+    if(i<s){
+      dot.classList.add('pdn');
+      if(lbl)lbl.classList.add('pdn');
+    } else if(i===s){
+      var cls=b?'pbk':(i===3?'prf':'pac');
+      dot.classList.add(cls);
+      if(lbl)lbl.classList.add(cls);
+    }
+    if(line)line.className='pline'+(i<s?' pdn':'');
+  }
 }
-function markComplete(id){document.getElementById('done-'+id).classList.remove('hidden');showToast('✅ Complete — Patrick notified',null,false);}
-function undoComplete(id){document.getElementById('done-'+id).classList.add('hidden');showToast('↩ Marked incomplete');}
-function toggleFlag(id){var b=document.getElementById('flag-'+id);b.classList.toggle('flagged');showToast(b.classList.contains('flagged')?'🚩 Flagged — ops notified':'🚩 Flag removed');}
-function unblock(id){document.getElementById('blocker-'+id).style.display='none';cardBlocked[id]=false;refreshPipe(id);showToast('✅ Unblocked');}
-function postComment(id){var inp=document.getElementById('ci-'+id);var v=inp.value.trim();if(!v)return;var t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var d=document.createElement('div');d.className='comment';d.innerHTML='<div class="c-av">AV</div><div><div><span class="c-name">Ace Venenciano</span><span class="c-time">'+t+'</span></div><p class="c-text">'+v+'</p></div>';document.getElementById('cm-'+id).appendChild(d);inp.value='';}
-function preflag(id){var i=document.getElementById('ci-'+id);if(!i.value.includes('🚨'))i.value='🚨 Need help — '+i.value;i.focus();}
-function autoLog(id,text){var t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});var d=document.createElement('div');d.className='comment';d.innerHTML='<div class="c-av">AV</div><div><div><span class="c-name">Ace Venenciano</span><span class="c-time">'+t+'</span></div><p class="c-text">'+text+'</p></div>';var s=document.getElementById('cm-'+id);if(s)s.appendChild(d);}
-function toggleIn(btn){var dot=btn.querySelector('.it-dot'),lbl=btn.querySelector('.it-lbl'),on=lbl.textContent==='In today';dot.style.background=on?'#696B6D':'#5CCE8A';lbl.textContent=on?'Off today':'In today';lbl.style.color=on?'#696B6D':'#5CCE8A';btn.style.borderColor=on?'#383C42':'#007A5A';btn.style.background=on?'#2C2D30':'#0D2B1A';}
+function markDone(id){var n=id.slice(1);show(g('dv'+n));tst('✅ Complete — Patrick notified',null,false);}
+function undone(id){var n=id.slice(1);hide(g('dv'+n));tst('↩ Marked incomplete');}
+function flagIt(id){var n=id.slice(1),b=g('f'+n);b.classList.toggle('on');tst(b.classList.contains('on')?'🚩 Flagged — ops notified':'🚩 Flag removed');}
+function unblk(id){var n=id.slice(1);var bb=g('blk'+n);if(bb)bb.style.display='none';blkd[id]=false;rPipe(id);tst('✅ Unblocked');}
+function post(id){var n=id.slice(1),inp=g('in'+n),v=inp.value.trim();if(!v)return;alog(id,v);inp.value='';}
+function alog(id,txt){var n=id.slice(1),t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}),d=document.createElement('div');d.className='cmnt';d.innerHTML='<div class="cav" style="background:#3F1B42;color:#BF8BC6">AV</div><div><div><span class="cnm">Ace Venenciano</span><span class="ctm">'+t+'</span></div><p class="ctx">'+txt+'</p></div>';g('th'+n).appendChild(d);}
+function togIn(btn){var d=btn.querySelector('.itdot'),l=btn.querySelector('.itlbl'),on=l.textContent==='In today';d.style.background=on?'#696B6D':'#5CCE8A';l.textContent=on?'Off today':'In today';l.style.color=on?'#696B6D':'#5CCE8A';btn.style.borderColor=on?'#383C42':'#007A5A';btn.style.background=on?'#2C2D30':'#0D2B1A';}
 
-// ── LOCATION SHEET ──
-function openLoc(cardId){
-  activeLoc=cardId;
-  var c=document.getElementById('loc-opts');c.innerHTML='';
+function showLoc(cardId){
+  var c=g('locOpts');c.innerHTML='';
   LOCS.forEach(function(l){
-    var btn=document.createElement('button');btn.className='sheet-opt'+(cardLocs[cardId]===l.l?' selected':'');
-    btn.innerHTML='<span style="font-size:20px">'+l.e+'</span><span class="sheet-opt-label">'+l.l+'</span>'+(cardLocs[cardId]===l.l?'<span style="color:#5CCE8A;font-size:16px">✓</span>':'');
-    btn.onclick=function(){cardLocs[cardId]=l.l;document.getElementById('loc-'+cardId).textContent=l.l;autoLog(cardId,'📍 '+l.l);closeLocSheet();showToast('📍 '+l.l);};
+    var btn=document.createElement('button');
+    btn.className='mopt'+(locs[cardId]===l.l?' sel':'');
+    btn.innerHTML='<span class="mi">'+l.e+'</span><span class="ml">'+l.l+'</span>'+(locs[cardId]===l.l?'<span class="mc">✓</span>':'');
+    btn.onclick=function(){locs[cardId]=l.l;g('l'+cardId).textContent=l.l;alog(cardId,'📍 '+l.l);closeM('locM');tst('📍 '+l.l);};
     c.appendChild(btn);
   });
-  document.getElementById('loc-sheet').classList.add('open');
+  openM('locM');
 }
-function closeLocSheet(e){if(!e||e.target===document.getElementById('loc-sheet')||e.target===document.getElementById('loc-sheet-bg')||e.target.classList.contains('sheet-close'))document.getElementById('loc-sheet').classList.remove('open');}
-
-// ── CHARGE SHEET ──
-function openChg(cardId){
-  activeChg=cardId;
-  var c=document.getElementById('chg-opts');c.innerHTML='';
+function showChg(cardId){
+  var c=g('chgOpts');c.innerHTML='';
   CHGS.forEach(function(p){
-    var btn=document.createElement('button');btn.className='chg-opt'+(cardChgs[cardId]===p?' selected':'');
-    btn.textContent=p+'%';btn.style.color=cc(p);btn.style.borderColor=cardChgs[cardId]===p?cc(p):'#383C42';
-    btn.onclick=function(){cardChgs[cardId]=p;var el=document.getElementById('chg-'+cardId);el.textContent=p+'%';el.closest('.pill-btn').style.color=cc(p);autoLog(cardId,'⚡ Charge → '+p+'%');closeChgSheet();showToast('⚡ Charge → '+p+'%');};
+    var btn=document.createElement('button');
+    btn.className='copt'+(chgs[cardId]===p?' sel':'');
+    btn.textContent=p+'%';btn.style.color=cc(p);btn.style.borderColor=chgs[cardId]===p?cc(p):'#383C42';
+    btn.onclick=function(){chgs[cardId]=p;g('c'+cardId).textContent=p+'%';g('cp'+cardId).style.color=cc(p);alog(cardId,'⚡ Charge → '+p+'%');closeM('chgM');tst('⚡ '+p+'%');};
     c.appendChild(btn);
   });
-  document.getElementById('chg-sheet').classList.add('open');
+  openM('chgM');
 }
-function closeChgSheet(e){if(!e||e.target===document.getElementById('chg-sheet')||e.target===document.getElementById('chg-sheet-bg')||e.target.classList.contains('sheet-close'))document.getElementById('chg-sheet').classList.remove('open');}
 
-// ── INGRESS ──
-function renderIngress(){
-  var c=document.getElementById('ing-cards');c.innerHTML='';
-  INGRESS.forEach(function(item){
-    var done=item.status==='inbounded';
-    var el=document.createElement('div');el.className='card';el.style.borderLeft='3px solid '+(done?'#5CCE8A':'#ECB22E');
-    var html='<div class="card-header"><div class="card-top"><div><p class="card-vehicle" style="font-family:monospace">VIN ••••'+item.vin+'</p><p class="card-customer">Inspector: '+item.insp+'</p></div><span class="ing-status '+(done?'ing-done':'ing-await')+'">'+(done?'Inbounded':'Awaiting Inbound')+'</span></div></div>';
-    html+='<div class="details-grid">';
-    [['Miles',item.miles.toLocaleString()],['Keys',item.keys],['Ext.',item.ext],['Int.',item.int],['Charge',item.chg+'%'],['Charger',item.charger],['Lights',item.lights]].forEach(function(r){html+='<div><p class="d-lbl">'+r[0]+'</p><p class="d-val">'+r[1]+'</p></div>';});
-    html+='</div>';
-    if(item.dmg)html+='<div style="margin:0 14px 10px;padding:9px 12px;background:#2B1215;border:1px solid #5A1520;border-radius:8px;font-size:12px;color:#FF6B75">⚠ '+item.dmg+'</div>';
-    html+='<div style="padding:0 14px 4px"><p style="font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Photos — '+item.photos+'/5 min</p><div class="photo-grid" id="pg-'+item.id+'">';
-    var slots=Math.max(item.photos,5);for(var i=0;i<slots;i++)html+='<div class="photo-slot '+(i<item.photos?'ps-filled':'ps-empty')+'" data-iid="'+item.id+'" data-idx="'+i+'">'+(i<item.photos?'✓':'＋')+'</div>';
-    html+='</div><p style="font-size:11px;color:#696B6D;margin-bottom:12px">Dash · Interior · Door sticker · Emissions · Exterior</p></div>';
-    if(!done)html+='<div style="padding:0 14px 14px"><button class="inb-btn" data-iid="'+item.id+'">🚛 Mark Inbounded</button></div>';
-    el.innerHTML=html;
-    el.querySelectorAll('.photo-slot.ps-empty').forEach(function(slot){slot.addEventListener('click',function(){addPhoto(slot.dataset.iid);});});
-    var inbBtn=el.querySelector('.inb-btn');if(inbBtn)inbBtn.addEventListener('click',function(){markInbounded(inbBtn.dataset.iid);});
+function renderIng(){
+  var c=g('igc');c.innerHTML='';
+  ING.forEach(function(item){
+    var dn=item.status==='inbounded';
+    var el=document.createElement('div');el.className='card';el.style.borderLeft='3px solid '+(dn?'#5CCE8A':'#ECB22E');
+    var h='<div class="chead"><div class="ctop"><div><p class="cname" style="font-family:monospace;font-size:14px">VIN ••••'+item.vin+'</p><p class="ccust">Inspector: '+item.insp+'</p></div><span class="istat" style="background:'+(dn?'#0D2B1A':'#2B2010')+';color:'+(dn?'#5CCE8A':'#ECB22E')+';border:1px solid '+(dn?'#007A5A':'#4A3810')+'">'+(dn?'Inbounded':'Awaiting Inbound')+'</span></div></div>';
+    h+='<div class="dgrid">';
+    [['Miles',item.miles.toLocaleString()],['Keys',item.keys],['Ext.',item.ext],['Int.',item.int],['Charge',item.chg+'%'],['Charger',item.charger],['Lights',item.lights]].forEach(function(r){h+='<div><p class="dlbl">'+r[0]+'</p><p class="dval">'+r[1]+'</p></div>';});
+    h+='</div>';
+    if(item.dmg)h+='<div style="margin:0 14px 10px;padding:10px;background:#2B1215;border:1px solid #5A1520;border-radius:8px;font-size:13px;color:#FF6B75">⚠ '+item.dmg+'</div>';
+    h+='<div style="padding:0 14px 4px"><p style="font-size:10px;font-weight:700;color:#696B6D;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Photos — '+item.photos+'/5 min</p><div class="pgrid" id="pg'+item.id+'">';
+    var n=Math.max(item.photos,5);
+    for(var i=0;i<n;i++)h+='<div class="pslot" style="background:'+(i<item.photos?'#0D2B1A':'#2C2D30')+';border:1px solid '+(i<item.photos?'#007A5A':'#383C42')+'" data-iid="'+item.id+'">'+(i<item.photos?'✓':'＋')+'</div>';
+    h+='</div><p style="font-size:11px;color:#696B6D;margin-bottom:14px">Dash · Interior · Door sticker · Emissions · Exterior</p></div>';
+    if(!dn)h+='<div style="padding:0 14px 14px"><button class="mkbtn" style="width:100%" data-iid="'+item.id+'">🚛 Mark Inbounded</button></div>';
+    el.innerHTML=h;
+    el.querySelectorAll('.pslot').forEach(function(s){if(s.textContent.trim()==='＋')s.onclick=function(){addPh(s.dataset.iid);};});
+    var ib=el.querySelector('[data-iid].mkbtn');if(ib)ib.onclick=function(){mrkIb(ib.dataset.iid);};
     c.appendChild(el);
   });
 }
-function addPhoto(id){var item=INGRESS.find(i=>i.id===id);if(item){item.photos++;renderIngress();showToast('📷 Photo added');}}
-function markInbounded(id){var item=INGRESS.find(i=>i.id===id);if(item){item.status='inbounded';renderIngress();showToast('✅ Vehicle inbounded — passed to techs');}}
+function addPh(id){var it=ING.find(function(x){return x.id===id;});if(it){it.photos++;renderIng();tst('📷 Photo added');}}
+function mrkIb(id){var it=ING.find(function(x){return x.id===id;});if(it){it.status='inbounded';renderIng();tst('✅ Inbounded — passed to techs');}}
 
-// ── SHUTTLING ──
-function renderShuttling(){
-  var c=document.getElementById('sht-cards');c.innerHTML='';
-  SHUTTLE.forEach(function(trip){
-    var idx=trip.status==='pending'?0:trip.status==='en-route'?1:2;
-    var tc={color:trip.type==='drop-off'?'#E8525A':trip.type==='pickup'?'#5CCE8A':'#ECB22E',bg:trip.type==='drop-off'?'#2B1215':trip.type==='pickup'?'#0D2B1A':'#2B2010'};
-    var el=document.createElement('div');el.className='card';el.style.borderLeft='3px solid '+(trip.status==='complete'?'#5CCE8A':trip.status==='en-route'?'#ECB22E':'#696B6D');
-    var html='<div class="card-header"><div class="card-top"><div><p class="card-vehicle">'+trip.vehicle+'</p><p class="card-customer">••••'+trip.vin+'</p></div><span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;background:'+tc.bg+';color:'+tc.color+';border:1px solid;flex-shrink:0">'+trip.type+'</span></div><div class="trip-route"><span class="rt-from">'+trip.from+'</span><span class="rt-arrow">→</span><span class="rt-to">'+trip.to+'</span></div></div>';
-    html+='<div class="shuttle-pipe">';
+function renderSht(){
+  var c=g('shc');c.innerHTML='';
+  SHT.forEach(function(t){
+    var idx=t.status==='pending'?0:t.status==='en-route'?1:2;
+    var tc=t.type==='drop-off'?'#E8525A':t.type==='pickup'?'#5CCE8A':'#ECB22E';
+    var tb=t.type==='drop-off'?'#2B1215':t.type==='pickup'?'#0D2B1A':'#2B2010';
+    var el=document.createElement('div');el.className='card';el.style.borderLeft='3px solid '+(t.status==='complete'?'#5CCE8A':t.status==='en-route'?'#ECB22E':'#696B6D');
+    var h='<div class="chead"><div class="ctop"><div><p class="cname">'+t.vehicle+'</p><p class="ccust">••••'+t.vin+'</p></div><span style="font-size:10px;font-weight:700;padding:4px 10px;border-radius:4px;background:'+tb+';color:'+tc+';border:1px solid;flex-shrink:0">'+t.type+'</span></div><div class="sroute"><span class="sfrom">'+t.from+'</span><span style="color:#696B6D;font-size:16px">→</span><span class="sto">'+t.to+'</span></div></div>';
+    h+='<div class="spipe">';
     ['Pending','En Route','Complete'].forEach(function(lbl,i){
       var icons=['⏳','🚗','🏁'];
-      var dc=i<idx?'s-dot s-done':i===idx?(trip.status==='complete'?'s-dot s-green':'s-dot s-amber'):'s-dot';
-      var lc=i<=idx?(trip.status==='complete'?'s-lbl s-green':'s-lbl s-amber'):'s-lbl';
-      html+='<div class="s-step"><div class="'+dc+'">'+icons[i]+'</div><span class="'+lc+'">'+lbl+'</span></div>';
-      if(i<2)html+='<div class="s-line'+(i<idx?' done':'')+'"></div>';
+      var bg=i<idx?'#007A5A':i===idx?(t.status==='complete'?'#0D2B1A':t.status==='en-route'?'#2B2010':'#2C2D30'):'#2C2D30';
+      var bo=i<idx?'#007A5A':i===idx?(t.status==='complete'?'#5CCE8A':t.status==='en-route'?'#ECB22E':'#383C42'):'#383C42';
+      var lc=i<=idx?(t.status==='complete'?'#5CCE8A':t.status==='en-route'?'#ECB22E':'#696B6D'):'#696B6D';
+      h+='<div class="sstep"><div class="sdot" style="background:'+bg+';border-color:'+bo+'">'+icons[i]+'</div><span class="slbl" style="color:'+lc+'">'+lbl+'</span></div>';
+      if(i<2)h+='<div class="sline" style="background:'+(i<idx?'#007A5A':'#2C2D30')+'"></div>';
     });
-    html+='</div>';
-    if(trip.status!=='complete'){
-      var bg=trip.status==='en-route'?'#007A5A':'#ECB22E',txt=trip.status==='pending'?'🚗 Start trip':'✓ Mark complete';
-      html+='<div class="action-row"><button class="start-btn" style="background:'+bg+'" data-sid="'+trip.id+'">'+txt+'</button><button class="flag-btn" onclick="showToast(\'🚩 Flagged — ops notified\')">🚩</button></div>';
-    }
-    el.innerHTML=html;
-    var sb=el.querySelector('.start-btn');if(sb)sb.addEventListener('click',function(){advanceShuttle(sb.dataset.sid);});
+    h+='</div>';
+    if(t.status!=='complete')h+='<div class="arow"><button class="stbtn" style="background:'+(t.status==='en-route'?'#007A5A':'#ECB22E')+'" data-sid="'+t.id+'">'+(t.status==='pending'?'🚗 Start trip':'✓ Mark complete')+'</button><button class="flbtn" onclick="tst(\'🚩 Flagged — ops notified\')">🚩</button></div>';
+    el.innerHTML=h;
+    var sb=el.querySelector('.stbtn');if(sb)sb.onclick=function(){advSht(sb.dataset.sid);};
     c.appendChild(el);
   });
 }
-function advanceShuttle(id){var t=SHUTTLE.find(x=>x.id===id);if(!t)return;var s=['pending','en-route','complete'],i=s.indexOf(t.status);t.status=s[Math.min(i+1,2)];renderShuttling();showToast('Stage → '+['Pending','En Route','Complete'][s.indexOf(t.status)]);}
+function advSht(id){var t=SHT.find(function(x){return x.id===id;});if(!t)return;var s=['pending','en-route','complete'],i=s.indexOf(t.status);t.status=s[Math.min(i+1,2)];renderSht();tst('Stage → '+['Pending','En Route','Complete'][s.indexOf(t.status)]);}
 
-// ── ADVISOR ──
-function renderAdvisor(){renderZones();renderTeam();}
+function renderAdv(){renderZones();renderTeam();}
 function renderZones(){
-  var c=document.getElementById('role-zones');c.innerHTML='';
+  var c=g('rzones');c.innerHTML='';
   ['ingress','inventory','shuttling'].forEach(function(rk){
-    var rc=ROLE_COLORS[rk],rb=ROLE_BGS[rk],rbo=ROLE_BORDERS[rk];
-    var assigned=TEAM.filter(m=>m.role===rk&&m.in);
-    var tc=rk==='inventory'?2:rk==='ingress'?INGRESS.filter(i=>i.status==='awaiting').length:SHUTTLE.filter(t=>t.status!=='complete').length;
-    var zone=document.createElement('div');zone.className='role-zone';
-    var html='<div class="rz-hdr" style="background:'+rb+'"><span style="font-size:20px">'+ROLE_ICONS[rk]+'</span><div><p class="rz-name" style="color:'+rc+'">'+rk+'</p><p class="rz-tasks">'+tc+' active task'+(tc!==1?'s':'')+'</p></div><span class="rz-count">'+assigned.length+' assigned</span></div>';
-    html+='<div class="chips-area">';
-    if(assigned.length){assigned.forEach(function(m){html+='<div class="m-chip" style="background:'+m.bg+';border-color:'+rbo+'" onclick="openRoleSheet(\''+m.id+'\')" data-mid="'+m.id+'"><div class="chip-av" style="color:'+m.c+'">'+m.i+'</div><span class="chip-name">'+m.n+'</span></div>';});}
-    else html+='<p class="empty-zone">Tap a team member to assign here</p>';
-    html+='</div>';
-    // Task lists
-    html+='<div class="task-list"><div class="tl-hdr"><span class="tl-lbl" style="color:'+rc+'">'+ROLE_ICONS[rk]+' ';
-    if(rk==='inventory')html+='Deliveries</span><span class="tl-count">0/2 complete</span>';
-    else if(rk==='ingress')html+='Inbound vehicles</span><span class="tl-count">'+INGRESS.filter(i=>i.status==='inbounded').length+'/'+INGRESS.length+' inbounded</span>';
-    else html+='Shuttle trips</span><span class="tl-count">'+SHUTTLE.filter(t=>t.status==='complete').length+'/'+SHUTTLE.length+' complete</span>';
-    html+='</div>';
-    if(rk==='inventory'){
-      [['2019 Tesla Model 3','R. Jones','BLKD','Car wash','25%',false],['2024 Rivian R1S','S. Zaman','RFD','HQ','80%',false]].forEach(function(r){
-        html+='<div class="task-row"><div class="tr-top"><span class="tr-badge" style="background:'+(r[2]==='RFD'?'#0D2B1A':'#2B1215')+';color:'+(r[2]==='RFD'?'#5CCE8A':'#E8525A')+'">'+r[2]+'</span><span class="tr-v">'+r[0]+'</span></div>';
-        html+='<div class="tr-meta"><span>'+r[1]+'</span><span style="color:'+cc(parseInt(r[4]))+'">⚡'+r[4]+'</span><span>📍'+r[3]+'</span></div>';
-        html+='<div class="mini-pipe">';[0,1,2,3,4].forEach(function(i){var st=r[2]==='RFD'?4:3;html+='<div class="mp-dot" style="background:'+(i<st?'#007A5A':i===st?'#BF8BC6':'#383C42')+'"></div>';if(i<4)html+='<div class="mp-line" style="background:'+(i<st?'#007A5A':'#383C42')+'"></div>';});html+='</div></div>';
-      });
-    } else if(rk==='ingress'){
-      INGRESS.forEach(function(item){html+='<div class="task-row'+(item.status==='inbounded'?' faded':'')+'"><div class="tr-top"><span class="tr-badge" style="background:'+(item.status==='inbounded'?'#0D2B1A':'#2B2010')+';color:'+(item.status==='inbounded'?'#5CCE8A':'#ECB22E')+'">'+(item.status==='inbounded'?'IN':'AWAIT')+'</span><span class="tr-v" style="font-family:monospace">••••'+item.vin+'</span></div><div class="tr-meta"><span>👤 '+item.insp+'</span><span style="color:'+cc(item.chg)+'">⚡'+item.chg+'%</span><span style="color:'+(item.photos>=5?'#5CCE8A':'#ECB22E')+'">📷 '+item.photos+'/5</span></div>'+(item.dmg?'<div style="font-size:11px;color:#E8525A;margin-top:4px">⚠ '+item.dmg+'</div>':'')+'</div>';});
-    } else {
-      SHUTTLE.forEach(function(t){html+='<div class="task-row'+(t.status==='complete'?' faded':'')+'"><div class="tr-top"><span class="tr-badge" style="background:'+(t.status==='complete'?'#0D2B1A':t.status==='en-route'?'#2B2010':'#2C2D30')+';color:'+(t.status==='complete'?'#5CCE8A':t.status==='en-route'?'#ECB22E':'#696B6D')+'">'+(t.status==='complete'?'DONE':t.status==='en-route'?'OTW':'WAIT')+'</span><span class="tr-v">'+t.vehicle+'</span></div><div class="tr-route"><span class="tr-from">'+t.from+'</span><span class="tr-arr">→</span><span class="tr-to">'+t.to+'</span><span style="font-size:10px;color:#696B6D;background:#2C2D30;padding:2px 6px;border-radius:4px;margin-left:auto">'+t.type+'</span></div><div style="font-size:11px;color:#696B6D;margin-top:4px">Assigned: '+t.assigned+'</div></div>';});
-    }
-    html+='</div>';
-    zone.innerHTML=html;c.appendChild(zone);
+    var rc=RC[rk],rb=RB[rk];
+    var asgd=TEAM.filter(function(m){return m.role===rk&&m.in;});
+    var tc=rk==='inventory'?2:rk==='ingress'?ING.filter(function(x){return x.status==='awaiting';}).length:SHT.filter(function(x){return x.status!=='complete';}).length;
+    var z=document.createElement('div');z.className='rzone';
+    var h='<div class="rzhdr" style="background:'+rb+'"><span style="font-size:20px">'+RI[rk]+'</span><div><p class="rzname" style="color:'+rc+'">'+rk+'</p><p class="rztasks">'+tc+' active task'+(tc!==1?'s':'')+'</p></div><span class="rzct">'+asgd.length+' assigned</span></div>';
+    h+='<div class="chiparea">';
+    if(asgd.length){asgd.forEach(function(m){h+='<button class="chip" data-mid="'+m.id+'" style="background:'+m.bg+';border-color:'+rc+'"><div class="chav" style="color:'+m.c+'">'+m.i+'</div><span class="chnm">'+m.n+'</span></button>';});}
+    else h+='<p style="color:#696B6D;font-size:12px;font-style:italic;padding:6px 4px">Tap a team member to assign</p>';
+    h+='</div>'+buildTL(rk);
+    z.innerHTML=h;
+    z.querySelectorAll('.chip').forEach(function(ch){ch.onclick=function(){showRole(ch.dataset.mid);};});
+    c.appendChild(z);
   });
+}
+function buildTL(rk){
+  var rc=RC[rk];
+  var h='<div class="tlist"><div class="tlhdr"><span class="tllbl" style="color:'+rc+'">'+RI[rk]+' ';
+  if(rk==='inventory')h+='Deliveries</span><span class="tlcnt">0/2 complete</span>';
+  else if(rk==='ingress')h+='Inbound vehicles</span><span class="tlcnt">'+ING.filter(function(x){return x.status==='inbounded';}).length+'/'+ING.length+' inbounded</span>';
+  else h+='Shuttle trips</span><span class="tlcnt">'+SHT.filter(function(x){return x.status==='complete';}).length+'/'+SHT.length+' complete</span>';
+  h+='</div>';
+  if(rk==='inventory'){
+    [['2019 Tesla Model 3','R. Jones','BLKD','Car wash','25'],['2024 Rivian R1S','S. Zaman','RFD','HQ','80']].forEach(function(r){
+      h+='<div class="trow"><div class="trtop"><span class="trbg" style="background:'+(r[2]==='RFD'?'#0D2B1A':'#2B1215')+';color:'+(r[2]==='RFD'?'#5CCE8A':'#E8525A')+'">'+r[2]+'</span><span class="trv">'+r[0]+'</span></div><div class="trmeta"><span>'+r[1]+'</span><span style="color:'+cc(+r[4])+'">⚡'+r[4]+'%</span><span>📍'+r[3]+'</span></div></div>';
+    });
+  } else if(rk==='ingress'){
+    ING.forEach(function(x){h+='<div class="trow'+(x.status==='inbounded'?' fd':'')+'"><div class="trtop"><span class="trbg" style="background:'+(x.status==='inbounded'?'#0D2B1A':'#2B2010')+';color:'+(x.status==='inbounded'?'#5CCE8A':'#ECB22E')+'">'+(x.status==='inbounded'?'IN':'AWAIT')+'</span><span class="trv" style="font-family:monospace">••••'+x.vin+'</span></div><div class="trmeta"><span>'+x.insp+'</span><span style="color:'+cc(x.chg)+'">⚡'+x.chg+'%</span><span style="color:'+(x.photos>=5?'#5CCE8A':'#ECB22E')+'">📷 '+x.photos+'/5</span></div></div>';});
+  } else {
+    SHT.forEach(function(t){h+='<div class="trow'+(t.status==='complete'?' fd':'')+'"><div class="trtop"><span class="trbg" style="background:'+(t.status==='complete'?'#0D2B1A':t.status==='en-route'?'#2B2010':'#2C2D30')+';color:'+(t.status==='complete'?'#5CCE8A':t.status==='en-route'?'#ECB22E':'#696B6D')+'">'+(t.status==='complete'?'DONE':t.status==='en-route'?'OTW':'WAIT')+'</span><span class="trv">'+t.vehicle+'</span></div><div class="trmeta"><span>'+t.from+'→'+t.to+'</span><span>'+t.who+'</span></div></div>';});
+  }
+  return h+'</div>';
 }
 function renderTeam(){
-  var inM=TEAM.filter(m=>m.in),outM=TEAM.filter(m=>!m.in);
-  document.getElementById('tp-sub').textContent=inM.length+' in · '+outM.length+' out · tap to reassign';
-  var c=document.getElementById('team-list');c.innerHTML='<span class="ts-lbl">In today</span>';
+  var inM=TEAM.filter(function(m){return m.in;}),outM=TEAM.filter(function(m){return !m.in;});
+  g('tpsub').textContent=inM.length+' in · '+outM.length+' out · tap to reassign';
+  var c=g('tlist');c.innerHTML='<span class="tseclbl">In today</span>';
   inM.forEach(function(m){
-    var div=document.createElement('div');div.className='tm';
-    div.innerHTML='<div class="tm-av" style="background:'+m.bg+';color:'+m.c+'">'+m.i+'</div><div style="flex:1;min-width:0"><p class="tm-name">'+m.n+'</p><p class="tm-role" style="color:'+ROLE_COLORS[m.role]+'">'+ROLE_ICONS[m.role]+' '+m.role+'</p></div><div class="tm-dot" style="background:#5CCE8A"></div>';
-    div.addEventListener('click',function(){openRoleSheet(m.id);});
-    c.appendChild(div);
-  });
-  var div2=document.createElement('div');div2.className='team-div';
-  var lbl2=document.createElement('span');lbl2.className='ts-lbl';lbl2.textContent='Not in today';
-  c.appendChild(div2);c.appendChild(lbl2);
-  outM.forEach(function(m){
-    var div=document.createElement('div');div.className='tm out';
-    div.innerHTML='<div class="tm-av" style="background:#2A2A2A;color:#666;filter:grayscale(1)">'+m.i+'</div><div style="flex:1;min-width:0"><p class="tm-name" style="color:#9B9EA4">'+m.n+'</p><p style="font-size:10px;color:#696B6D;margin-top:2px">Not in today</p></div><div class="tm-dot" style="background:#383C42"></div>';
-    c.appendChild(div);
-  });
-}
-function openRoleSheet(memberId){
-  activeRoleMember=memberId;
-  var m=TEAM.find(x=>x.id===memberId);
-  document.getElementById('rs-title').textContent='Assign role — '+m.n;
-  var c=document.getElementById('rs-opts');c.innerHTML='';
-  ['ingress','inventory','shuttling'].forEach(function(r){
-    var btn=document.createElement('button');btn.className='rs-opt';
-    btn.innerHTML='<div class="rs-icon" style="background:'+ROLE_BGS[r]+'">'+ROLE_ICONS[r]+'</div><span class="rs-label" style="color:'+ROLE_COLORS[r]+'">'+r.charAt(0).toUpperCase()+r.slice(1)+'</span>'+(m.role===r?'<span class="rs-check">✓</span>':'');
-    btn.addEventListener('click',function(){var prev=m.role;m.role=r;renderAdvisor();closeRoleSheet();showToast(ROLE_ICONS[r]+' '+r+' → '+m.n,function(){m.role=prev;renderAdvisor();});});
+    var btn=document.createElement('button');btn.className='tmem';
+    btn.innerHTML='<div class="tmav" style="background:'+m.bg+';color:'+m.c+'">'+m.i+'</div><div style="flex:1;min-width:0"><p class="tmnm">'+m.n+'</p><p class="tmrl" style="color:'+RC[m.role]+'">'+RI[m.role]+' '+m.role+'</p></div><div class="tmdot" style="background:#5CCE8A"></div>';
+    btn.onclick=function(){showRole(m.id);};
     c.appendChild(btn);
   });
-  document.getElementById('role-sheet').classList.add('open');
+  var dv=document.createElement('div');dv.className='tdiv';
+  var lb=document.createElement('span');lb.className='tseclbl';lb.textContent='Not in today';
+  c.appendChild(dv);c.appendChild(lb);
+  outM.forEach(function(m){
+    var d=document.createElement('div');d.className='tmem';d.style.opacity='.4';
+    d.innerHTML='<div class="tmav" style="background:#2A2A2A;color:#666;filter:grayscale(1)">'+m.i+'</div><div style="flex:1;min-width:0"><p class="tmnm" style="color:#9B9EA4">'+m.n+'</p><p style="font-size:10px;color:#696B6D;margin-top:2px">Not in today</p></div><div class="tmdot" style="background:#383C42"></div>';
+    c.appendChild(d);
+  });
 }
-function closeRoleSheet(e){if(!e||e.target===document.getElementById('role-sheet')||e.target===document.getElementById('role-sheet-bg')||e.target.classList.contains('rs-close'))document.getElementById('role-sheet').classList.remove('open');}
-function autoAssign(){var r=['ingress','inventory','shuttling','shuttling','inventory','ingress','inventory','shuttling'];TEAM.filter(m=>m.in).forEach(function(m,i){m.role=r[i]||'inventory';});renderAdvisor();showToast('✦ Auto-assigned team');}
+function showRole(mid){
+  var m=TEAM.find(function(x){return x.id===mid;});
+  g('roleTit').textContent='Assign role — '+m.n;
+  var c=g('roleOpts');c.innerHTML='';
+  ['ingress','inventory','shuttling'].forEach(function(r){
+    var btn=document.createElement('button');btn.className='mopt'+(m.role===r?' sel':'');
+    btn.innerHTML='<div style="width:40px;height:40px;border-radius:10px;background:'+RB[r]+';display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">'+RI[r]+'</div><span class="ml" style="color:'+RC[r]+';font-weight:600;text-transform:capitalize">'+r+'</span>'+(m.role===r?'<span class="mc">✓</span>':'');
+    btn.onclick=function(){var prev=m.role;m.role=r;renderAdv();closeM('roleM');tst(RI[r]+' '+r+' → '+m.n,function(){m.role=prev;renderAdv();});};
+    c.appendChild(btn);
+  });
+  openM('roleM');
+}
+function autoAssign(){
+  var r=['ingress','inventory','shuttling','shuttling','inventory','ingress','inventory','shuttling'];
+  TEAM.filter(function(m){return m.in;}).forEach(function(m,i){m.role=r[i]||'inventory';});
+  renderAdv();tst('✦ Auto-assigned team');
+}
+function tst(msg,undoFn,showUndo){
+  clearTimeout(tTimer);tUndo=undoFn||null;
+  g('tmsg').textContent=msg;
+  var ub=g('tundb');
+  if(undoFn&&showUndo!==false){ub.classList.remove('gone');}else{ub.classList.add('gone');}
+  g('toast').classList.add('show');
+  tTimer=setTimeout(function(){g('toast').classList.remove('show');},4500);
+}
+function runUndo(){if(tUndo){tUndo();tUndo=null;}clearTimeout(tTimer);g('toast').classList.remove('show');}
 
-// ── TOAST ──
-function showToast(msg,undoFn,showUndo){
-  clearTimeout(toastTimer);toastUndoFn=undoFn||null;
-  document.getElementById('toast-msg').textContent=msg;
-  document.getElementById('toast-undo').classList.toggle('hidden',!(undoFn&&showUndo!==false));
-  document.getElementById('toast').classList.add('show');
-  toastTimer=setTimeout(function(){document.getElementById('toast').classList.remove('show');},4500);
-}
-function runUndo(){if(toastUndoFn){toastUndoFn();toastUndoFn=null;}clearTimeout(toastTimer);document.getElementById('toast').classList.remove('show');}
+// Keyboard support for thread inputs
+g('in1').onkeydown=function(e){if(e.key==='Enter')post('d1');};
+g('in2').onkeydown=function(e){if(e.key==='Enter')post('d2');};
 </script>
 </body>
 </html>
